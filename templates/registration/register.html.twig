@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>S'inscrire</h1>
+    <h1 class = "text-color d-flex justify-content-center">S'inscrire</h1>
 
     {{ form_errors(registrationForm) }}
 
@@ -14,7 +14,7 @@
         }) }}
         {# {{ form_row(registrationForm.agreeTerms) }} #}
 
-        <button type="submit" class="btn">S'inscrire</button>
+        <button type="submit" class="btn button my-3">S'inscrire</button>
     {{ form_end(registrationForm) }}
 
 

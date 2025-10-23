@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h1 class = "text-color d-flex justify-content-center">Topic</h1>
+
+    <table class="table">
+        <tbody class = "table-color">
+            <tr>
+                <th class = "text-color">Titre </th>
+                <td class = "text-color">{{ topic.title }}</td>
+            </tr>
+            <tr>
+                <th class = "text-color">Description</th>
+                <td class = "text-color">{{ topic.description }}</td>
+            </tr>
+            {% if topic.modificationDate %}
+                <tr>
+                    <th class = "text-color">Date de Modification</th>
+                    <td class = "text-color">{{ topic.modificationDate ? topic.modificationDate|date('Y-m-d') : '' }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <th class = "text-color">Date de création</th>
+                    <td class = "text-color">{{ topic.creationDate ? topic.creationDate|date('Y-m-d') : '' }}</td>
+                </tr>
+            {% endif %}
+            
+        </tbody>
+    </table>
+
+    <a class = 'btn button' href="{{ path('app_topic_index') }}">Retour à la liste des Topic</a>
+    {% if app.user %}
+        <a class =' btn button' href="{{ path('app_topic_edit', {'id': topic.id}) }}">Modifier</a>
+    
+        {{ include('topic/_delete_form.html.twig') }}
+    {% endif %}
+{% endblock %}
