@@ -21,7 +21,7 @@ class TopicType extends AbstractType
             ])
             ->add('description', TextType::class, [
                 'attr' => ['class' => 'text-color'],
-                'label' => 'Titre',
+                'label' => 'Description',
             ])
             // ->add('user', EntityType::class, [
             //     'class' => User::class,
