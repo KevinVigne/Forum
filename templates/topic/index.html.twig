@@ -1,39 +1,17 @@
+
 {% extends 'base.html.twig' %}
 
 
 {% block body %}
-    <h1 class ="text-color d-flex justify-content-center">Topic</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                
-                <th>Titre</th>
-                <th>Description</th>  
-                <th>Date de Création</th>
-                <th>Date de Modification</th>
-                <th>Actions:</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for topic in topics %}
-            <tr>
-                
-                <td>{{ topic.title }}</td>
-                <td>{{ topic.description }}</td>
-                    <td>{{ topic.modificationDate ? topic.modificationDate|date('Y-m-d') : '' }}</td>
-                    <td>{{ topic.creationDate ? topic.creationDate|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a class = "text-color" href="{{ path('app_topic_show', {'id': topic.id}) }}">Afficher</a>
-                    <a class = "text-color" href="{{ path('app_topic_edit', {'id': topic.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">Aucun Topic Trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <a class = "btn button my-2" href="{{ path('app_topic_new') }}">Créer un Topic</a>
+    <div class="container flex-column">
+        <h1 class ="text-color d-flex justify-content-center">Topics :</h1>
+            {% for topic in topics %}               
+    
+                <a class="text-color py-4 col-6 card-border my-2 mx-3 center" href="{{ path('app_topic_show', {'id': topic.id}) }}">{{topic.title}} </a>
+            {# Si il n'y a aucun topic #}
+            {% else %}
+                <p>Aucun Topic Trouvé</p>
+            {% endfor %}
+        <a class = "btn button my-2 font" href="{{ path('app_topic_new') }}">Créer un Topic</a>
+    </div>
 {% endblock %}

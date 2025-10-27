@@ -19,6 +19,25 @@
 body{
     background-color: var(--body-bg-color--);
 }
+.font{
+    font-family: "Chicago";
+}
+.h2{
+    font-size: 25px;
+}
+.text-color{
+    color: var(--nav-footer-text-color--);
+}
+.scale-down{
+    width: 10%;
+}
+.center{
+    display:flex;
+    justify-content: center;
+    justify-self: center;
+    align-content: center;
+    align-self: center;
+}
 .nav,.footer,.nav-link{
     background-color: var(--nav-footer-bg-color--);
     color: var(--nav-footer-text-color--);
@@ -27,32 +46,27 @@ body{
     display :flex;
     flex-direction: column;
     justify-content: center;
-    align-content: center;
-    padding:  30px 10px 30px 70px;
+    text-align: center;
+    background-color: var(--body-bg-color--);
     
-}
-.text-color{
-    color: var(--nav-footer-text-color--);
-}
-
-.scale-down{
-    width: 10%;
 }
 .nav{
     display: flex;
     justify-content: space-evenly;
 }
 .button{
-    background-color: var(--nav-footer-bg-color--);
-    color: var(--nav-footer-text-color--);
+    border-radius: 5px;
     display:flex;
     justify-self: center;
-}
-.button:hover{
-    border-radius: 5px;
     border-color: var(--nav-footer-text-color--) ;
     color: var(--nav-footer-text-color--);
     background-color: var(--body-bg-color--);
+}
+.button:hover{
+    
+    background-color: var(--nav-footer-bg-color--);
+    color: var(--nav-footer-text-color--);
+    
 }
 .nav-item:hover{
     border-color: var(--nav-footer-text-color--);
@@ -62,9 +76,9 @@ body{
 .nav-link:hover{
     color: var(--nav-footer-text-color--);
 }
-.nav-tabs{
-    --bs-nav-tabs-link-hover-border-color: var(--nav-footer-text-color--);
-}
-.table-color{
+.card-header,.card-body{
     background-color: var(--body-bg-color--);
+}
+.card-border{
+    border : 2px solid var(--nav-footer-text-color--); 
 }

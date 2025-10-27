@@ -1,38 +1,36 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
     <h1 class = "text-color d-flex justify-content-center">Topic</h1>
 
-    <table class="table">
-        <tbody class = "table-color">
-            <tr>
-                <th class = "text-color">Titre </th>
-                <td class = "text-color">{{ topic.title }}</td>
-            </tr>
-            <tr>
-                <th class = "text-color">Description</th>
-                <td class = "text-color">{{ topic.description }}</td>
-            </tr>
-            {% if topic.modificationDate %}
-                <tr>
-                    <th class = "text-color">Date de Modification</th>
-                    <td class = "text-color">{{ topic.modificationDate ? topic.modificationDate|date('Y-m-d') : '' }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <th class = "text-color">Date de création</th>
-                    <td class = "text-color">{{ topic.creationDate ? topic.creationDate|date('Y-m-d') : '' }}</td>
-                </tr>
-            {% endif %}
-            
-        </tbody>
-    </table>
+    <div class="card-body py-5 col-4 card-border my-2 d-flex justify-content center flex-column">
+        <h2 class="card-title text-color d-flex justify-content-center my-3 ">{{topic.title}}</h2>
+        <div>
+            <p class="card-text d-flex justify-content-center">{{topic.description}}</p>
+            <div class="d-flex justify-content-center  flex-column">
+                {% if topic.modificationDate %}
+                    <p class = "center">Dernière modification le :{{topic.modificationDate ? topic.modificationDate|date('d-m-Y') : ''}}</p>
+                {% else %}
+                    <p class= "center"> Créé le {{topic.creationDate ? topic.creationDate|date('d-m-Y') : ''}}</p>
+                {% endif %}
+                <p class = "center"> Créé par {{topic.user.pseudo}}</p>
+            </div>
+        </div>
+    </div>
 
-    <a class = 'btn button' href="{{ path('app_topic_index') }}">Retour à la liste des Topic</a>
+    
     {% if app.user %}
-        <a class =' btn button' href="{{ path('app_topic_edit', {'id': topic.id}) }}">Modifier</a>
+        <a class =' btn button my-2 font' href="{{ path('app_topic_edit', {'id': topic.id}) }}">Modifier</a>
     
         {{ include('topic/_delete_form.html.twig') }}
     {% endif %}
+    <a class = 'btn button d-flex justify-self-start my-2 font' href="{{ path('app_topic_index') }}">Retour</a>
+
+    <h2 class ="text-color d-flex justify-content-center">Commentaires :</h2>
+    <a class = "btn button font " href=" path('app_comment_new')">Ajouter un Commentaire</a>
+        {% for comment in topic.comments %}
+        <div class = "card-body col-8 my-2 d-flex justify-content-center">
+            <p class = "card-text d-flex justify-content-center">{{ comment.message }}<p>
+        </div>
+        {% endfor %}
 {% endblock %}
