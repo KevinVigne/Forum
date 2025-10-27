@@ -1,38 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Comment index{% endblock %}
-
 {% block body %}
-    <h1>Comment index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                
-                <th>Message</th>
-                <th>Creation_date</th>
-                <th>Modification_date</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <h1 class = "text-color ">Liste Des Commentaires</h1>
         {% for comment in comments %}
-            <tr>
-                <td>{{ comment.message }}</td>
-                <td>{{ comment.creationDate ? comment.creationDate|date('Y-m-d') : '' }}</td>
-                <td>{{ comment.modificationDate ? comment.modificationDate|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_comment_show', {'id': comment.id}) }}">Afficher</a>
-                    <a href="{{ path('app_comment_edit', {'id': comment.id}) }}">Modifier</a>
-                </td>
-            </tr>
+            <div class="card-body col-4 card-border my-2 d-flex justify-content center flex-column">
+                <div>
+                    <p class="card-text d-flex justify-content-center">{{comment.message}}</p>
+                    <div class="d-flex justify-content-center  flex-column">
+                        {% if comment.modificationDate %}
+                            <p class = "center">Dernière modification le :{{comment.modificationDate ? comment.modificationDate|date('d-m-Y') : ''}}</p>
+                        {% else %}
+                            <p class= "center"> Créé le {{comment.creationDate ? comment.creationDate|date('d-m-Y') : ''}}</p>
+                        {% endif %}
+                        <p class = "center"> Créé par  : pseudo</p>
+                    </div>  
+                    {{ include('comment/_delete_form.html.twig') }}
+                </div>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="5">Aucun  commentaire trouvé</td>
-            </tr>
+                <p>Aucun  commentaire trouvé</p>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_comment_new') }}">Create new</a>
+       
+    
 {% endblock %}

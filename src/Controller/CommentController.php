@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Topic;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/comment')]
 final class CommentController extends AbstractController
@@ -22,18 +23,38 @@ final class CommentController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_comment_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{topicId}', name: 'app_comment_new', methods: ['GET', 'POST'])]
+    public function new(int $topicId ,Request $request, EntityManagerInterface $entityManager): Response
     {
+         // Récupérer le topic correspondant
+        $topic = $entityManager->getRepository(Topic::class)->find($topicId);
+
+        if (!$topic) {
+            throw $this->createNotFoundException("Topic non trouvé !");
+        }
+        // Créer le commentaire
         $comment = new Comment();
+
+        $comment->setTopic($topic); // associer le topic ici
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Associe l'utilisateur au commentaire
+            $comment->setUser($this->getUser());
+            // Définit la date de création
+            $comment->setCreationDate(new \DateTime());
+
             $entityManager->persist($comment);
             $entityManager->flush();
+            // Récupère le Topic associé au message
+            $topic = $comment->getTopic();
 
-            return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
+            // Redirige vers la page du Topic (app_topic_show)
+            return $this->redirectToRoute('app_topic_show', [
+                'id' => $topic->getId(),  // Passe l'ID du Topic à la route
+            ], Response::HTTP_SEE_OTHER);
+            
         }
 
         return $this->render('comment/new.html.twig', [

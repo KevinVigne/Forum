@@ -19,18 +19,26 @@
     </div>
 
     
-    {% if app.user %}
+    {% if app.user and app.user == topic.user %}
         <a class =' btn button my-2 font' href="{{ path('app_topic_edit', {'id': topic.id}) }}">Modifier</a>
-    
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN')  or app.user == topic.user %}
         {{ include('topic/_delete_form.html.twig') }}
     {% endif %}
     <a class = 'btn button d-flex justify-self-start my-2 font' href="{{ path('app_topic_index') }}">Retour</a>
 
     <h2 class ="text-color d-flex justify-content-center">Commentaires :</h2>
-    <a class = "btn button font " href=" path('app_comment_new')">Ajouter un Commentaire</a>
+    {% if app.user %}
+        <a href="{{ path('app_comment_new', {'topicId': topic.id}) }}" class="btn button font">Ajouter un commentaire</a>
+    {% endif %}
+    
         {% for comment in topic.comments %}
         <div class = "card-body col-8 my-2 d-flex justify-content-center">
+            <p class = "card-text d-flex justify-content-center align"> De {{comment.user.pseudo}} :</p>
             <p class = "card-text d-flex justify-content-center">{{ comment.message }}<p>
+            {% if app.user and app.user == comment.user or is_granted('ROLE_ADMIN') %}
+                {{ include('comment/_delete_form.html.twig') }}
+            {% endif %}
         </div>
         {% endfor %}
 {% endblock %}
