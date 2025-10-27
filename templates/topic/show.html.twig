@@ -4,6 +4,7 @@
     <h1 class = "text-color d-flex justify-content-center">Topic</h1>
 
     <div class="card-body py-5 col-4 card-border my-2 d-flex justify-content center flex-column">
+        <h2 class = "center text-color">{{topic.user.pseudo}}</p>
         <h2 class="card-title text-color d-flex justify-content-center my-3 ">{{topic.title}}</h2>
         <div>
             <p class="card-text d-flex justify-content-center">{{topic.description}}</p>
@@ -13,7 +14,6 @@
                 {% else %}
                     <p class= "center"> Créé le {{topic.creationDate ? topic.creationDate|date('d-m-Y') : ''}}</p>
                 {% endif %}
-                <p class = "center"> Créé par {{topic.user.pseudo}}</p>
             </div>
         </div>
     </div>
@@ -33,9 +33,16 @@
     {% endif %}
     
         {% for comment in topic.comments %}
-        <div class = "card-body col-8 my-2 d-flex justify-content-center">
-            <p class = "card-text d-flex justify-content-center align"> De {{comment.user.pseudo}} :</p>
+        <div class = "card-body col-6 my-2  card-border d-flex justify-content-center flex-column center">
+            <p class = "card-text d-flex justify-content-center">{{comment.user.pseudo}}</p>
             <p class = "card-text d-flex justify-content-center">{{ comment.message }}<p>
+            <div class="d-flex justify-content-center  flex-column">
+                {% if topic.modificationDate %}
+                    <p class = "center">Dernière modification le :{{topic.modificationDate ? topic.modificationDate|date('d-m-Y') : ''}}</p>
+                {% else %}
+                    <p class= "center"> Créé le {{topic.creationDate ? topic.creationDate|date('d-m-Y') : ''}}</p>
+                {% endif %}
+            </div>
             {% if app.user and app.user == comment.user or is_granted('ROLE_ADMIN') %}
                 {{ include('comment/_delete_form.html.twig') }}
             {% endif %}
